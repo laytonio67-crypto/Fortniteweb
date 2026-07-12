@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>VAULT — Fortnite Cosmetics Archive</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+    --bg:#080b12;
+    --card:#121722;
+    --card2:#192131;
+    --border:#263042;
+    --text:#f2f5ff;
+    --muted:#8993a8;
+    --accent:#3fd7c7;
+
+    --common:#9aa4b2;
+    --uncommon:#54d96b;
+    --rare:#4b9cff;
+    --epic:#b45cff;
+    --legendary:#ff9d3d;
+}
+
+
+*{
+    box-sizing:border-box;
+}
+
+
+body{
+    margin:0;
+    background:
+    radial-gradient(circle at top,#182638,transparent 40%),
+    var(--bg);
+
+    color:var(--text);
+    font-family:Inter,Arial;
+}
+
+
+header{
+
+    height:75px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:0 30px;
+
+    background:#0c111b;
+    border-bottom:1px solid var(--border);
+
+    position:sticky;
+    top:0;
+    z-index:5;
+
+}
+
+
+.logo{
+
+    font-family:Rajdhani;
+    font-size:32px;
+    font-weight:700;
+    letter-spacing:2px;
+
+}
+
+
+.logo span{
+    color:var(--accent);
+}
+
+
+
+input{
+
+    background:#111824;
+    border:1px solid var(--border);
+
+    color:white;
+
+    padding:12px 18px;
+
+    border-radius:10px;
+
+    width:350px;
+
+    font-size:15px;
+
+}
+
+
+.container{
+
+    padding:30px;
+
+}
+
+
+
+.filters{
+
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+
+    margin-bottom:25px;
+
+}
+
+
+button{
+
+    background:#121a28;
+
+    color:white;
+
+    border:1px solid var(--border);
+
+    padding:10px 16px;
+
+    border-radius:20px;
+
+    cursor:pointer;
+
+}
+
+
+button:hover,
+button.active{
+
+    background:var(--accent);
+
+    color:#031512;
+
+}
+
+
+
+.status{
+
+    color:var(--muted);
+
+    margin-bottom:20px;
+
+}
+
+
+
+.grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fill,minmax(190px,1fr));
+
+    gap:18px;
+
+}
+
+
+
+.card{
+
+    background:var(--card);
+
+    border:1px solid var(--border);
+
+    border-radius:15px;
+
+    overflow:hidden;
+
+    cursor:pointer;
+
+    transition:.15s;
+
+}
+
+
+.card:hover{
+
+    transform:translateY(-5px);
+
+    border-color:var(--accent);
+
+}
+
+
+
+.image{
+
+    height:220px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:
+    radial-gradient(circle,#24334a,#0d121c);
+
+}
+
+
+.image img{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:contain;
+
+}
+
+
+
+.info{
+
+    padding:15px;
+
+}
+
+
+.name{
+
+    font-weight:700;
+
+    font-size:16px;
+
+}
+
+
+.type{
+
+    color:var(--muted);
+
+    margin-top:5px;
+
+    font-size:13px;
+
+}
+
+
+
+.rarity{
+
+    margin-top:10px;
+
+    font-size:12px;
+
+    font-weight:bold;
+
+}
+
+
+
+.modal-bg{
+
+    position:fixed;
+
+    inset:0;
+
+    background:#000b;
+
+    display:none;
+
+    align-items:center;
+
+    justify-content:center;
+
+    z-index:10;
+
+}
+
+
+
+.modal{
+
+    width:600px;
+
+    max-width:90%;
+
+    background:#111824;
+
+    border:1px solid var(--border);
+
+    border-radius:20px;
+
+    padding:25px;
+
+}
+
+
+
+.modal img{
+
+    width:250px;
+
+    height:250px;
+
+    object-fit:contain;
+
+}
+
+
+
+.close{
+
+    float:right;
+
+}
+
+
+
+.loading{
+
+    text-align:center;
+
+    padding:50px;
+
+    font-size:20px;
+
+    color:var(--muted);
+
+}
+
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<div class="logo">
+VAULT <span>FN</span>
+</div>
+
+
+<input id="search" placeholder="Search cosmetics...">
+
+
+</header>
+
+
+
+<div class="container">
+
+
+<div class="filters">
+
+<button data-type="all" class="active">
+All
+</button>
+
+<button data-type="Outfit">
+Outfits
+</button>
+
+<button data-type="Harvesting Tool">
+Pickaxes
+</button>
+
+<button data-type="Back Bling">
+Back Bling
+</button>
+
+<button data-type="Glider">
+Gliders
+</button>
+
+<button data-type="Emote">
+Emotes
+</button>
+
+<button data-type="Wrap">
+Wraps
+</button>
+
+
+</div>
+
+
+
+<div class="status" id="status">
+Loading Fortnite cosmetics...
+</div>
+
+
+
+<div id="grid" class="grid"></div>
+
+
+</div>
+
+
+
+<div id="modal" class="modal-bg">
+
+<div class="modal">
+
+<button class="close" onclick="closeModal()">
+X
+</button>
+
+
+<img id="modalImg">
+
+
+<h2 id="modalName"></h2>
+
+<p id="modalDesc"></p>
+
+<p id="modalInfo"></p>
+
+
+</div>
+
+</div>
+
+
+
+<script>
+
+// PART 2 GOES HERE
+
+</script>
+
+
+</body>
+</html>
